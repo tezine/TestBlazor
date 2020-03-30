@@ -1,0 +1,25 @@
+﻿@page "/counter"
+@inject NavigationManager NavigationManager
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private async void IncrementCount() {
+        currentCount++;
+        //receiving 404 this way
+        HttpClient httpClient = new HttpClient();
+        //var result = await httpClient.GetStringAsync("https://localhost:44335/api/Test/GetTest");//44335 is the port of iis express
+
+        //also receiving 404
+        httpClient.BaseAddress = new Uri(NavigationManager.BaseUri);
+        var result= await httpClient.GetStringAsync("/api/Test/GetTest");
+
+        //https://localhost:44335/api/Test/GetTest works fine if you test on a web browser
+    }
+}
